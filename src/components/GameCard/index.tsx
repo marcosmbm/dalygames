@@ -12,7 +12,7 @@ interface GameCardProps {
 export function GameCard({ game }: GameCardProps) {
   return (
     <Link href={`/game/${game.id}`}>
-      <div className="w-full bg-slate-200 rounded-lg p-4 mb-5">
+      <div className="w-full bg-slate-200 rounded-lg p-4 mb-5 overflow-hidden">
         <div className="relative w-full h-56 hover:scale-105 duration-300">
           <Image
             src={game.image_url}
