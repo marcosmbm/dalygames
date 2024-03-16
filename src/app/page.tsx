@@ -1,8 +1,11 @@
 import Link from "next/link";
 import Image from "next/image";
 
-import { Container } from "@/components/Container";
 import { BsArrowRightSquare } from "react-icons/bs";
+
+import { Container } from "@/components/Container";
+import { FormSearch } from "@/components/FormSearch";
+import { GameCard } from "@/components/GameCard";
 
 import { httpRequest } from "@/services/httpRequest";
 import type { GameProps } from "@/utils/types/Game";
@@ -14,8 +17,15 @@ async function getDalyGame() {
   });
 }
 
+async function getGameData() {
+  return await httpRequest({
+    endpoint: "/?api=games",
+    revalidate: 320,
+  });
+}
 export default async function Home() {
   const dalyGame: GameProps = await getDalyGame();
+  const games: GameProps[] = await getGameData();
 
   return (
     <main className="w-full">
@@ -44,6 +54,16 @@ export default async function Home() {
             </div>
           </section>
         </Link>
+
+        <FormSearch />
+
+        <h2 className="text-lg font-bold mt-8 mb-5">Jogos para conhecer</h2>
+
+        <section className="grid gap-7 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          {games.map((item) => (
+            <GameCard key={item.id} game={item} />
+          ))}
+        </section>
       </Container>
     </main>
   );
